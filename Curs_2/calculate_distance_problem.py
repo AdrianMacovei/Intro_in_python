@@ -38,7 +38,7 @@ Notes:
 
 def calculate_distance():
     distances = [75, 89, 90, 21, 30, 49]
-    routes_of_the_day = [1, 3, 1, 3] # result =
+    routes_of_the_day = [1, 3, 1, 3] # result = 941
     total_distance = 0
     current_port = 0
 
@@ -49,7 +49,7 @@ def calculate_distance():
             for i in range(anterior_port, current_port):
                 total_distance += distances[i]
         elif anterior_port > current_port:
-            for i in range(anterior_port - 1, current_port - 2, -1):
+            for i in range(anterior_port - 1, current_port - 1, -1):
                 total_distance += distances[i]
     if current_port != 0:
         for i in range(current_port - 1, -1, -1):
