@@ -1,91 +1,52 @@
-MENU = {
-    "espresso": {
-        "ingredients": {
-            "water": 50,
-            "coffee": 18,
-        },
-        "cost": 1.5,
-    },
-    "latte": {
-        "ingredients": {
-            "water": 200,
-            "milk": 150,
-            "coffee": 24,
-        },
-        "cost": 2.5,
-    },
-    "cappuccino": {
-        "ingredients": {
-            "water": 250,
-            "milk": 100,
-            "coffee": 24,
-        },
-        "cost": 3.0,
-    }
-}
-
-profit = 0
-resources = {
-    "water": 300,
-    "milk": 200,
-    "coffee": 100,
-}
+from random import randint
 
 
-def is_resource_sufficient(order_ingredients):
-    """Returns True when order can be made, False if ingredients are insufficient."""
-    for item in order_ingredients:
-        if order_ingredients[item] > resources[item]:
-            print(f"​Sorry there is not enough {item}.")
-            return False
-    return True
+class Student:
+    student_object_list = []
+
+    def __init__(self):
+        self.grade = 0
+
+    @classmethod
+    def create_students_objects(cls):
+        student_name_list = []
+        number_of_students = int(input("Please select the number of students"))
+        for i in range(1, number_of_students + 1):
+            student_name_list.append(f"student{i}")
+        print(student_name_list)
+
+        # acest for iti va umple lista student_object_list cu obiecte de tipul student + numar unde cel mai mare numar va fi
+        #inputul dat iar  cel mai mic 1
+
+        for student in student_name_list:
+            student = Student()
+            Student.student_object_list.append(student)
+
+        # acest for il poti pastra aici sau in afara clasei, poti sa il lasi aici daca vrei ca automat cand chemi
+        # Student.create_students_objects sa-le dea zi grade la studenti
+        # sau o poti scoate din clasa si sa creezi doar lista de obiecte cand chemi Student.create_students_objects
+        # iar dupa daca vrei sa le dai grade scrii forul asta in afara clasei
+        for student in Student.student_object_list:
+            student.generate_grade()
+            print(student.grade)
+
+    def generate_grade(self):
+        self.grade = randint(1, 10)
+        return self.grade
+
+    # def generate_student_dictionary(self):
+    #     for i in range(self.number_of_students):
+    #         self.student_dictionary.update({self.generate_student_name(): self.generate_grade()})
+
+    # def find_grade_above_7(self):
+    #     grades_above_7 = []
+    #     for i in self.student_dictionary.values():
+    #         if i > 6:
+    #             grades_above_7.append(i)
+    #     return len(grades_above_7)
+
+    # def find_percentage(self):
+    #     return self.find_grade_above_7() / self.number_of_students * 100
 
 
-def process_coins():
-    """Returns the total calculated from coins inserted."""
-    print("Please insert coins.")
-    total = int(input("how many quarters?: ")) * 0.25
-    total += int(input("how many dimes?: ")) * 0.1
-    total += int(input("how many nickles?: ")) * 0.05
-    total += int(input("how many pennies?: ")) * 0.01
-    return total
-
-
-def is_transaction_successful(money_received, drink_cost):
-    """Return True when the payment is accepted, or False if money is insufficient."""
-    if money_received >= drink_cost:
-        change = round(money_received - drink_cost, 2)
-        print(f"Here is ${change} in change.")
-        global profit
-        profit += drink_cost
-        return True
-    else:
-        print("Sorry that's not enough money. Money refunded.")
-        return False
-
-
-def make_coffee(drink_name, order_ingredients):
-    """Deduct the required ingredients from the resources."""
-    for item in order_ingredients:
-        resources[item] -= order_ingredients[item]
-    print(f"Here is your {drink_name} ☕️. Enjoy!")
-
-
-is_on = True
-
-while is_on:
-    choice = input("What would you like? (espresso/latte/cappuccino): ")
-    if choice == "off":
-        is_on = False
-    elif choice == "report":
-        print(f"Water: {resources['water']}ml")
-        print(f"Milk: {resources['milk']}ml")
-        print(f"Coffee: {resources['coffee']}g")
-        print(f"Money: ${profit}")
-    else:
-        drink = MENU[choice]
-        if is_resource_sufficient(drink["ingredients"]):
-            payment = process_coins()
-            if is_transaction_successful(payment, drink["cost"]):
-                make_coffee(choice, drink["ingredients"])
-
+Student.create_students_objects()
